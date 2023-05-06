@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:elevation="50dp"
+    android:layout_margin="5dp">
+
+    <LinearLayout
+        android:id="@+id/ll_makanan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+        <TextView
+            android:id="@+id/tv_nama"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nama Makanan"
+            android:textSize="25sp"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/tv_asal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Asal Makanan"
+            android:textSize="18sp"/>
+        <TextView
+            android:id="@+id/tv_deskripsi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Deskripsi Makanan"
+            android:textSize="18sp"/>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

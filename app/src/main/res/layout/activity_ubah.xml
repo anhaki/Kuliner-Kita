@@ -11,7 +11,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ubah Data Bandara"
+        android:text="Ubah Data Makanan"
         android:layout_gravity="center"
         android:gravity="center"
         android:textSize="30sp"
@@ -23,22 +23,22 @@
         android:id="@+id/et_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nama Rumah Sakit"
+        android:hint="Nama Makanan"
         android:textSize="21sp"
         android:layout_marginTop="30dp"/>
 
     <EditText
-        android:id="@+id/et_alamat"
+        android:id="@+id/et_asal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Alamat Rumah Sakit"
+        android:hint="Asal Makanan"
         android:textSize="21sp"/>
 
     <EditText
-        android:id="@+id/et_telepon"
+        android:id="@+id/et_deskripsi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Telepon Rumah Sakit"
+        android:hint="Deskripsi Makanan"
         android:textSize="21sp"/>
 
     <Button
