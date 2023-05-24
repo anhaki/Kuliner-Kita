@@ -1,18 +1,31 @@
 package com.example.kulinerkita.Adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.kulinerkita.API.APIRequestData;
+import com.example.kulinerkita.API.RetroServer;
+import com.example.kulinerkita.Activity.MainActivity;
+import com.example.kulinerkita.Activity.UbahActivity;
 import com.example.kulinerkita.Model.ModelKuliner;
+import com.example.kulinerkita.Model.ModelResponse;
 import com.example.kulinerkita.R;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AdapterKuliner extends RecyclerView.Adapter<AdapterKuliner.VHKuliner> {
     private Context ctx;
@@ -54,6 +67,58 @@ public class AdapterKuliner extends RecyclerView.Adapter<AdapterKuliner.VHKuline
             tvNama = itemView.findViewById(R.id.tv_nama);
             tvAsal = itemView.findViewById(R.id.tv_asal);
             tvDeskripsiSingkat = itemView.findViewById(R.id.tv_deskripsi);
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    AlertDialog.Builder pesan = new AlertDialog.Builder(ctx);
+                    pesan.setTitle("Perhatian");
+                    pesan.setMessage("Operaso apa yang akan dilakukan?");
+                    pesan.setCancelable(true);
+
+                    pesan.setNegativeButton("Hapus", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            hapusKuliner(tvId.getText().toString());
+                            dialog.dismiss();
+                        }
+                    });
+                    pesan.setPositiveButton("Ubah", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent pindah = new Intent(ctx, UbahActivity.class);
+                            pindah.putExtra("xId", tvId.getText().toString());
+                            pindah.putExtra("xNama", tvNama.getText().toString());
+                            pindah.putExtra("xAsal", tvAsal.getText().toString());
+                            pindah.putExtra("xDeskripsi", tvDeskripsiSingkat.getText().toString());
+                            ctx.startActivity(pindah);
+                        }
+                    });
+                    pesan.show();
+                    return false;
+                }
+            });
+        }
+
+        private void hapusKuliner(String idKuliner){
+            APIRequestData ARD = RetroServer.koneksiRetrofit().create(APIRequestData.class);
+            Call<ModelResponse> proses = ARD.ardDelete(idKuliner);
+
+            proses.enqueue(new Callback<ModelResponse>() {
+                @Override
+                public void onResponse(Call<ModelResponse> call, Response<ModelResponse> response) {
+                    String kode = response.body().getKode();
+                    String pesan = response.body().getPesan();
+
+                    Toast.makeText(ctx, "Kode : " + kode + ", Pesan : " + pesan, Toast.LENGTH_SHORT).show();
+                    ((MainActivity) ctx).retrieveKuliner();
+                }
+
+                @Override
+                public void onFailure(Call<ModelResponse> call, Throwable t) {
+                    Toast.makeText(ctx, "Gagal menghubungi server", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 
